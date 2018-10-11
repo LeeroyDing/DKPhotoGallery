@@ -28,3 +28,6 @@ Carthage/
 #
 Pods/
 *.Podlock
+
+# Carthage
+Carthage/
