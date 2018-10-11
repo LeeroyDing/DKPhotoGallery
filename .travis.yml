@@ -1,14 +1,17 @@
 language: swift
-podfile: DKPhotoGalleryDemo/Podfile
-
 osx_image: xcode10
-xcode_sdk: iphonesimulator11.3
+xcode_sdk: iphonesimulator
+
+cache:
+  directories:
+    - $HOME/Library/Caches/org.carthage.CarthageKit/dependencies
+    - Carthage/Build
+env:
+  - BOOTSTRAP='rvm use system; brew install ruby; sudo gem install cocoapods -v "1.5.0"; pod repo update;pushd DKPhotoGalleryDemo; pod install; popd' TEST='xcodebuild clean build test -workspace DKPhotoGalleryDemo/DKPhotoGalleryDemo.xcworkspace -scheme DKPhotoGalleryDemo -destination "platform=iOS Simulator,name=iPhone 7"'
+  - BOOTSTRAP='carthage bootstrap' TEST='xcodebuild clean build test -project DKPhotoGallery.xcodeproj -scheme DKPhotoGallery -destination "platform=iOS Simulator,name=iPhone 7"'
 
 before_install:
-  - rvm use system
-  - brew install ruby
-  - sudo gem install cocoapods -v '1.5.0'
-  - pod repo update
+- $BOOTSTRAP
 
 script:
-- xcodebuild clean build test -workspace DKPhotoGalleryDemo/DKPhotoGalleryDemo.xcworkspace -scheme DKPhotoGalleryDemo -destination "platform=iOS Simulator,name=iPhone 7"
+- $TEST
